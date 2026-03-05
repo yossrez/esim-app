@@ -20,7 +20,7 @@ const geistMono = localFont({
 export default function ContentLayout({ children }: ContentLayoutProps) {
   return (
     <div
-      className={`container mx-auto px-5 ${geistSans.className} ${geistMono.className}`}
+      className={`container mx-auto px-5 ${geistSans.className} ${geistMono.className} mb-20`}
     >
       {children}
     </div>

@@ -17,7 +17,7 @@ export default function BaseLayout({
     <>
       <SEO title={title} description={description} />
       {children}
-      <footer className="max-md:flex max-md:justify-center">
+      <footer className="relative max-md:flex max-md:justify-center max-sm:hidden">
         <div className="bottom-0 absolute pt-2 pb-3 w-full px-10">
           <div className="flex md:flex-row flex-col justify-between items-center gap-3 lg:gap-7 max-ws">
             <span className="text-gray-800 md:text-base">

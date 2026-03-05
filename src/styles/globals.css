@@ -61,6 +61,8 @@
 
   /* Breakpoints */
   --breakpoint-xs: 30rem;
+
+  --color-active: oklch(0.7096 0.147 21.48);
 }
 
 /*---break---*/
