@@ -13,13 +13,6 @@
   }
 }
 
-@utility text-balance {
-  text-wrap: balance;
-}
-
-@layer utilities {
-}
-
 /*---break---*/
 
 @theme inline {
@@ -61,13 +54,20 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Spacing */
+  --spacing-section: 6rem;
+  --spacing-content: 2rem;
+
+  /* Breakpoints */
+  --breakpoint-xs: 30rem;
 }
 
 /*---break---*/
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0.952 0.0201 292.14);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -136,8 +136,6 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-#content-container {
-  display: grid;
-  grid-template-rows: repeat(1, minmax(0, 1fr));
-  min-height: 93vh;
+html {
+  scroll-behavior: smooth;
 }
