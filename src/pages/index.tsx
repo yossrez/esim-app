@@ -12,7 +12,7 @@ export default function PageMain() {
     <BaseLayout title="Home">
       <Nav />
       <ContentLayout>
-        <main className="px-5">
+        <main>
           <div className="flex items-center justify-center mt-10 rounded-lg h-96 aspect-video w-full bg-[linear-gradient(to_bottom,rgba(15,23,42,0.95),rgba(15,23,42,0.6)),url('/assets/images/hero/hero-bg.jpg')] bg-cover bg-center bg-no-repeat">
             <div className="flex flex-col items-center justify-center gap-12 h-full w-full p-5">
               <h1 className="lg:text-5xl sm:text-4xl text-2xl text-center font-semibold text-white">
