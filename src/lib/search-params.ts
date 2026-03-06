@@ -7,10 +7,12 @@ export function setSearchParams(
   pathname: string,
   searchParams: ReadonlyURLSearchParams,
   router: NextRouter,
+  replace: boolean = false,
 ) {
   const params = new URLSearchParams(searchParams.toString());
   params.set(key, value);
-  router.push(`${pathname}?${params.toString()}`, undefined, {
+  const routerKey = replace ? "replace" : "push";
+  router[routerKey](`${pathname}?${params.toString()}`, undefined, {
     shallow: true,
     scroll: false,
   });

@@ -5,6 +5,7 @@ const dataPlanTab: TabFilterProps = {
   filters: ["Limited", "Unlimited"],
   paramKey: "dataplan",
   fallback: "limited",
+  replace: true,
 };
 
 export default function DataPlans() {

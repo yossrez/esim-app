@@ -11,4 +11,5 @@ export type TabFilterProps = {
   filters: string[];
   paramKey: string;
   fallback: string;
+  replace?: boolean;
 };

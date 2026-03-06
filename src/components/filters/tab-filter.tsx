@@ -9,6 +9,7 @@ export default function TabFilter({
   filters,
   paramKey,
   fallback,
+  replace,
 }: TabFilterProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -25,7 +26,14 @@ export default function TabFilter({
               key={val}
               variant="ghost"
               onClick={() => {
-                setSearchParams(paramKey, val, pathname, searchParams, router);
+                setSearchParams(
+                  paramKey,
+                  val,
+                  pathname,
+                  searchParams,
+                  router,
+                  replace,
+                );
               }}
               className={`hover:bg-accent-foreground hover:text-white
                 ${active === val ? "bg-accent-foreground text-white" : ""}`}

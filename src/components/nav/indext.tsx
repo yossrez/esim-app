@@ -5,10 +5,7 @@ import MobileNav from "./mobile-nav";
 import { House } from "lucide-react";
 import { Store } from "lucide-react";
 import { Receipt } from "lucide-react";
-import { ShoppingCart } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import activeNav from "@/lib/active-nav";
+import CartNav from "./cart-nav";
 
 const iconSize = 22;
 const navLinks: NavLinkProps[] = [
@@ -45,17 +42,13 @@ const geistMono = localFont({
 });
 
 export default function Nav() {
-  const pathname = usePathname();
-
   return (
     <nav
       className={`container mx-auto sticky top-0 bg-background ${geistSans.variable} ${geistMono.variable} font-(family-name:--font-geist-mono)`}
     >
       <div className="flex max-md:justify-end justify-between items-center p-5 mx-5">
         <DesktopNav menu={navLinks} />
-        <Link href="/cart">
-          <ShoppingCart size={iconSize} color={activeNav(pathname, "/cart")} />
-        </Link>
+        <CartNav />
       </div>
       <MobileNav menu={navLinks} />
     </nav>

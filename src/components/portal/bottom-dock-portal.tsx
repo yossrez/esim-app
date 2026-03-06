@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 
 interface BottomDockPortalProps {
   children: ReactNode;
+  mobileOnly?: boolean;
 }
 
 const geistSans = localFont({
@@ -20,7 +21,10 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export default function BottomDockPortal({ children }: BottomDockPortalProps) {
+export default function BottomDockPortal({
+  children,
+  mobileOnly = true,
+}: BottomDockPortalProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -32,7 +36,7 @@ export default function BottomDockPortal({ children }: BottomDockPortalProps) {
   return createPortal(
     <div
       style={styles.container}
-      className={`md:hidden ${geistSans.variable} ${geistMono.variable} font-(family-name:--font-geist-mono)`}
+      className={`${mobileOnly ? "md:hidden" : ""} ${geistSans.variable} ${geistMono.variable} font-(family-name:--font-geist-mono)`}
     >
       {children}
     </div>,
