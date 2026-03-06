@@ -1,10 +1,10 @@
 import activeNav from "@/lib/active-nav";
-import { NavLinks } from "@/types/comp-types";
+import { NavLinkProps } from "@/types/prop-types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface DesktopNavProps {
-  menu: NavLinks[];
+  menu: NavLinkProps[];
 }
 
 export default function DesktopNav({ menu }: DesktopNavProps) {

@@ -1,5 +1,5 @@
 import localFont from "next/font/local";
-import { NavLinks } from "@/types/comp-types";
+import { NavLinkProps } from "@/types/prop-types";
 import DesktopNav from "./desktop-nav";
 import MobileNav from "./mobile-nav";
 import { House } from "lucide-react";
@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import activeNav from "@/lib/active-nav";
 
 const iconSize = 22;
-const navLinks: NavLinks[] = [
+const navLinks: NavLinkProps[] = [
   {
     title: "Home",
     icon: House,

@@ -3,13 +3,16 @@ import { setSearchParams } from "@/lib/search-params";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import useCustomSearchParams from "@/lib/hooks/custom-search-params";
+import { TabFilterProps } from "@/types/prop-types";
 
-const filters = ["Populars", "Countries", "Regionals"];
-
-export default function DestinationFilter() {
+export default function TabFilter({
+  filters,
+  paramKey,
+  fallback,
+}: TabFilterProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const active = useCustomSearchParams("filter", filters[0].toLowerCase());
+  const active = useCustomSearchParams(paramKey, fallback);
 
   return (
     <div className="flex justify-center mt-9 mb-6">
@@ -21,7 +24,7 @@ export default function DestinationFilter() {
               key={q}
               variant="ghost"
               onClick={() => {
-                setSearchParams("filter", q, searchParams, router);
+                setSearchParams(paramKey, q, searchParams, router);
               }}
               className={`hover:bg-accent-foreground hover:text-white
                 ${active === q ? "bg-accent-foreground text-white" : ""}`}

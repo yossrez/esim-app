@@ -2,27 +2,45 @@ import BaseLayout from "@/components/layout/base-layout";
 import ContentLayout from "@/components/layout/content-layout";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { useRouter } from "next/router";
-import { SquareChevronLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import DataPlans from "@/components/plan/data-plans";
+import ActivationPolicy from "@/components/plan/activation-policy";
+import InfoSnackBar from "@/components/snacks/info-snack-bar";
+import PlanDetails from "@/components/plan/plan-details";
+import { TabFilterProps } from "@/types/prop-types";
+import TabFilter from "@/components/filters/tab-filter";
+
+const dayTab: TabFilterProps = {
+  filters: ["Recommended", "1 Day", "3 Day"],
+  paramKey: "day",
+  fallback: "recommended",
+};
 
 export default function PageDataPlan() {
   const router = useRouter();
 
   return (
-    <BaseLayout title="Choose plan">
+    <BaseLayout title="Choose Plan">
       <ContentLayout>
-        <div></div>
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3 p-5">
           <button
             type="button"
-            onClick={() => {
-              router.back();
-            }}
-            className="cursor-pointer"
+            onClick={router.back}
+            className="cursor-pointer hover:bg-primary rounded-sm py-1 px-1.5 hover:text-white"
           >
-            <SquareChevronLeft size={16} />
+            <ArrowLeft size={20} />
           </button>
-          <span>{capitalizeFirstLetter(router.query.planId as string)}</span>
+          <span className="text-xl font-semibold">
+            {capitalizeFirstLetter(router.query.planId as string)}
+          </span>
         </div>
+        <main>
+          <TabFilter {...dayTab} />
+          <DataPlans />
+          <ActivationPolicy />
+          <PlanDetails />
+          <InfoSnackBar description="Some info here" />
+        </main>
       </ContentLayout>
     </BaseLayout>
   );

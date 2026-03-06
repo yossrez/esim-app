@@ -1,10 +1,16 @@
 import Destinations from "@/components/destinations";
-import DestinationFilter from "@/components/filters/destination-filter";
+import TabFilter from "@/components/filters/tab-filter";
 import BaseLayout from "@/components/layout/base-layout";
 import ContentLayout from "@/components/layout/content-layout";
 import Nav from "@/components/nav/indext";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
+
+const destinationTab = {
+  filters: ["Populars", "Countries", "Regionals"],
+  paramKey: "filter",
+  fallback: "populars",
+};
 
 export default function PageMain() {
   return (
@@ -32,7 +38,7 @@ export default function PageMain() {
             </div>
           </div>
           <section>
-            <DestinationFilter />
+            <TabFilter {...destinationTab} />
             <Destinations />
           </section>
         </main>

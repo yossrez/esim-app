@@ -11,6 +11,7 @@ export function setSearchParams(
   params.set(key, value);
   router.push(`?${params.toString()}`, undefined, {
     shallow: true,
+    scroll: false,
   });
 }
 
