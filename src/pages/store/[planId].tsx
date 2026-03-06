@@ -20,8 +20,15 @@ import {
 } from "@/lib/const/dataplan-filter";
 import { useMemo } from "react";
 import { destNameMap } from "@/lib/const/dest-name-map";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { FormDataPlan, planSchema } from "@/lib/yup/dataplan-schema";
 
 export default function PageDataPlan() {
+  const form = useForm<FormDataPlan>({
+    resolver: yupResolver(planSchema),
+  });
+
   const router = useRouter();
   const filterMemo = useFilterMemo(
     pageDataPlanFilterKeys,
@@ -37,7 +44,10 @@ export default function PageDataPlan() {
     return destNameMap[r[0] as keyof typeof destNameMap];
   }, [router]);
 
+  // TODO: pass isLoading and isError state
   const {} = useProductsQuery(router.query.planId as string, filterMemo);
+
+  const onSubmit = (data: FormDataPlan) => console.log("form", data);
 
   return (
     <BaseLayout title="Choose Plan">
@@ -65,17 +75,23 @@ export default function PageDataPlan() {
           <div className="flex justify-center mt-9 mb-6">
             <TabFilter {...dayTab} />
           </div>
-          <DataPlans />
-          <ActivationPolicy />
+          <form id="form-dataplan" onSubmit={form.handleSubmit(onSubmit)}>
+            <DataPlans form={form} />
+            <ActivationPolicy form={form} />
+          </form>
           <PlanDetails />
           <InfoSnackBar description="This plan does not come with a number, so no call and text service will be available." />
         </main>
         <BottomDockPortal mobileOnly={false}>
           <div className="container mx-auto flex items-center gap-3 p-5">
-            <Button className="w-12">
+            <Button type="submit" form="form-dataplan" className="w-12">
               <PackagePlus />
             </Button>
-            <Button className="w-[calc(100%-50px)] bg-active/90 hover:bg-active">
+            <Button
+              type="submit"
+              form="form-dataplan"
+              className="w-[calc(100%-50px)] bg-active/90 hover:bg-active"
+            >
               Buy Now
             </Button>
           </div>

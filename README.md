@@ -39,11 +39,13 @@ result.
 
 - [x] Shadcn/ui
 
+- [x] Ky (HTTP Client)
+
 ## Features
 
 ### Must Have
 
-- [ ] List all data plans available.
+- [x] List all data plans available.
 
 - [ ] Add data plans to cart along with the settings
       (e.g. plan activation date, quantity).
@@ -53,7 +55,3 @@ result.
 - [ ] List all placed orders.
 
 - [ ] View details of the placed order.
-
-### New Feature
-
-- [ ] asdf
