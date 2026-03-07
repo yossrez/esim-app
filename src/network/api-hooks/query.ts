@@ -1,6 +1,7 @@
 import kyClient from "@/lib/ky-client";
 import {
   ApiFilter,
+  CartData,
   CartItemTotal,
   DestinationData,
   HttpResponse,
@@ -87,7 +88,25 @@ async function getCartItemTotal(): Promise<HttpResponse<CartItemTotal>> {
 }
 export function useCartItemTotalQuery() {
   return useQuery<HttpResponse<CartItemTotal>>({
-    queryKey: ["cart", "total"],
+    queryKey: ["carts", "total"],
     queryFn: getCartItemTotal,
+  });
+}
+
+async function getCartItems(): Promise<HttpResponse<CartData>> {
+  try {
+    const res = await kyClient.get<HttpResponse<CartData>>("carts").json();
+    return res;
+  } catch (err) {
+    if (err instanceof HTTPError) {
+      throw err;
+    }
+    throw new Error(`Client Error: ${String(err)}`);
+  }
+}
+export function useCartItemsQuery() {
+  return useQuery<HttpResponse<CartData>>({
+    queryKey: ["carts"],
+    queryFn: getCartItems,
   });
 }

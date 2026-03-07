@@ -6,7 +6,7 @@ import { UseFormReset } from "react-hook-form";
 export function useAddToCartMutation(reset: UseFormReset<FormDataPlan>) {
   return useMutation({
     mutationFn: (newPlan: FormDataPlan) => {
-      return kyClient.post("cart/add", { json: newPlan });
+      return kyClient.post("carts", { json: newPlan });
     },
     onSuccess: () => {
       reset();

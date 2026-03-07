@@ -1,3 +1,5 @@
+import { FormDataPlan } from "@/lib/yup/dataplan-schema";
+
 export type HttpResponse<T> = {
   data: T;
 };
@@ -63,18 +65,16 @@ export type CartData = {
   [key: string]: Cart[];
 };
 
-export type Cart = {
-  id: string;
-};
+export type Cart = FormDataPlan;
 
 export type CartItemTotal = {
   total: number;
 };
 
-export type OrderData = {
-  [key: string]: Order[];
-};
+// export type OrderData = {
+//   [key: string]: Order[];
+// };
 
-export type Order = {
-  id: string;
-};
+// export type Order = {
+//   id: string;
+// };

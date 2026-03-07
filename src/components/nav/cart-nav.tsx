@@ -12,7 +12,7 @@ export default function CartNav({ iconSize = 22 }: { iconSize?: number }) {
   const { data, isLoading, isError } = useCartItemTotalQuery();
 
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["cart", "total"] });
+    queryClient.invalidateQueries({ queryKey: ["carts", "total"] });
   }, [pathname, queryClient]);
 
   return (
