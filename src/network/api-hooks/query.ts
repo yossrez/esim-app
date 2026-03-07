@@ -1,5 +1,11 @@
 import kyClient from "@/lib/ky-client";
-import { ApiFilter, DestinationData, HttpResponse, ProductData } from "@/types";
+import {
+  ApiFilter,
+  CartItemTotal,
+  DestinationData,
+  HttpResponse,
+  ProductData,
+} from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 
@@ -63,5 +69,25 @@ export function useDestinationsQuery(filter?: ApiFilter) {
     queryKey: ["destinations", filter],
     queryFn: ({ queryKey }) => getDestinations(queryKey[1] as string),
     enabled: filter !== null,
+  });
+}
+
+async function getCartItemTotal(): Promise<HttpResponse<CartItemTotal>> {
+  try {
+    const res = await kyClient
+      .get<HttpResponse<CartItemTotal>>("cart/total")
+      .json();
+    return res;
+  } catch (err) {
+    if (err instanceof HTTPError) {
+      throw err;
+    }
+    throw new Error(`Client Error: ${String(err)}`);
+  }
+}
+export function useCartItemTotalQuery() {
+  return useQuery<HttpResponse<CartItemTotal>>({
+    queryKey: ["cart", "total"],
+    queryFn: getCartItemTotal,
   });
 }

@@ -46,7 +46,13 @@ export default function ActivationPolicy({
                   ref={inputRef}
                   type="date"
                   min={new Date().toISOString().split("T")[0]}
-                  onChange={(e) => form.setValue("activation", e.target.value)}
+                  onChange={(e) =>
+                    form.setValue("activation", e.target.value, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                      shouldTouch: true,
+                    })
+                  }
                   className="bg-secondary text-primary"
                   disabled={radio === "now" || radio === null}
                 />

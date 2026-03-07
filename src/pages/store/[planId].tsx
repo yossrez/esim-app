@@ -27,6 +27,7 @@ import { capitalizeFirstLetter } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 
 import DataPlanConfim from "@/components/cofirms/dataplan-confim";
+import { useAddToCartMutation } from "@/network/api-hooks/mutation";
 
 export default function PageDataPlan() {
   const form = useForm<FormDataPlan>({
@@ -61,7 +62,12 @@ export default function PageDataPlan() {
   // TODO: pass isLoading and isError state
   const {} = useProductsQuery(router.query.planId as string, filterMemo);
 
-  const onSubmit = (data: FormDataPlan) => console.log("submit form", data);
+  const cartMutation = useAddToCartMutation(form.reset);
+
+  const onSubmit = (data: FormDataPlan) => {
+    console.log("submit form", data);
+    cartMutation.mutate(data);
+  };
 
   function handleConfirm() {}
 

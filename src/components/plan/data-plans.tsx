@@ -70,6 +70,7 @@ function DataPlanCard({
       });
     }
     setClick(false);
+    // eslint-disable-next-line
   }, [form, click]);
 
   return (

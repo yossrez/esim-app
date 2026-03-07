@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
 import { PayloadJson } from "@/seed/types";
-// import { Cart, Order } from "@/types";
+import { Order } from "@/types";
+import { FormDataPlan } from "@/lib/yup/dataplan-schema";
 
 const destinations: PayloadJson = { data: undefined };
 
 const localPlans: Record<string, PayloadJson> = {};
 const regionalPlans: Record<string, PayloadJson> = {};
 
-// const carts: Cart[] = [];
+const carts: FormDataPlan[] = [];
 
-// const orders: Order[] = [];
+const orders: Order[] = [];
 
 export function getInMemDestinations(): PayloadJson {
   if (destinations.data !== undefined) {
@@ -54,4 +55,17 @@ export function getInMemPlans(type: string, dest: string) {
     console.log(e);
     return null;
   }
+}
+
+export function getInMemCartItemTotal() {
+  return carts.length;
+}
+
+export function addInMemCart(payload: FormDataPlan) {
+  carts.push(payload);
+  console.log(carts);
+}
+
+export function getInMemOrderTotal() {
+  return orders.length;
 }

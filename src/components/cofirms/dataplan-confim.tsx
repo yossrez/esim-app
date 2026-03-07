@@ -111,7 +111,7 @@ function QtyCounter({ form }: { form: UseFormReturn<FormDataPlan> }) {
 
   useEffect(() => {
     form.setValue("quantity", value);
-  }, [value]);
+  }, [value, form]);
 
   return (
     <div className="flex gap-3 w-44 basis-1/4">

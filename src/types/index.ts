@@ -67,6 +67,10 @@ export type Cart = {
   id: string;
 };
 
+export type CartItemTotal = {
+  total: number;
+};
+
 export type OrderData = {
   [key: string]: Order[];
 };
