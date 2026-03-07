@@ -18,16 +18,23 @@ import {
   fallbackPageDataPlanFilter,
   pageDataPlanFilterKeys,
 } from "@/lib/const/dataplan-filter";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { destNameMap } from "@/lib/const/dest-name-map";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormDataPlan, planSchema } from "@/lib/yup/dataplan-schema";
+import { capitalizeFirstLetter } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
 
 export default function PageDataPlan() {
   const form = useForm<FormDataPlan>({
     resolver: yupResolver(planSchema),
   });
+
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    form.reset();
+  }, [searchParams, form]);
 
   const router = useRouter();
   const filterMemo = useFilterMemo(
@@ -41,13 +48,13 @@ export default function PageDataPlan() {
     if (r.length > 1) {
       return destNameMap[r[1] as keyof typeof destNameMap];
     }
-    return destNameMap[r[0] as keyof typeof destNameMap];
+    return capitalizeFirstLetter(r[0]);
   }, [router]);
 
   // TODO: pass isLoading and isError state
   const {} = useProductsQuery(router.query.planId as string, filterMemo);
 
-  const onSubmit = (data: FormDataPlan) => console.log("form", data);
+  const onSubmit = (data: FormDataPlan) => console.log("submit form", data);
 
   return (
     <BaseLayout title="Choose Plan">

@@ -4,14 +4,14 @@ import { FormDataPlan } from "@/lib/yup/dataplan-schema";
 import { activationPolicy } from "@/lib/const/activation-policy";
 import { Input } from "../ui/input";
 import RadioSelect from "../ui/radio-select";
-import { useState } from "react";
+import { useRef } from "react";
 
 export default function ActivationPolicy({
   form,
 }: {
   form: UseFormReturn<FormDataPlan>;
 }) {
-  const [date, setDate] = useState<string>();
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const radio = form.watch("activation");
 
@@ -28,12 +28,24 @@ export default function ActivationPolicy({
             );
           }
           return (
-            <RadioSelect key={v} {...form.register("activation")} value={date}>
+            <RadioSelect
+              key={v}
+              {...form.register("activation")}
+              value={
+                inputRef?.current?.value === undefined
+                  ? v
+                  : inputRef.current?.value
+              }
+              checked={
+                radio === "" || !Number.isNaN(Date.parse(radio as string))
+              }
+            >
               <>
                 <span className="block leading-9">Activate Later</span>
                 <Input
+                  ref={inputRef}
                   type="date"
-                  onChange={(e) => setDate(e.target.value)}
+                  onChange={(e) => form.setValue("activation", e.target.value)}
                   className="bg-secondary text-primary"
                   disabled={radio === "now" || radio === null}
                 />

@@ -13,19 +13,24 @@ export default function DataPlans({
 }: {
   form: UseFormReturn<FormDataPlan>;
 }) {
-  const data = useProductCacheData();
-
   return (
     <div className="mb-6">
       <Title>Data Plans</Title>
       <div className="flex justify-center mb-6">
         <TabFilter {...dataPlanTab} />
       </div>
-      <div className="grid md:grid-cols-2 grid-cols-1 gap-3.5">
-        {data?.data?.product_items.map((v) => (
-          <DataPlanCard key={v.natural_name} plan={v} form={form} />
-        ))}
-      </div>
+      <DataPlanCards form={form} />
+    </div>
+  );
+}
+
+function DataPlanCards({ form }: { form: UseFormReturn<FormDataPlan> }) {
+  const data = useProductCacheData();
+  return (
+    <div className="grid md:grid-cols-2 grid-cols-1 gap-3.5">
+      {data?.data?.product_items.map((v) => (
+        <DataPlanCard key={v.natural_name} plan={v} form={form} />
+      ))}
     </div>
   );
 }
@@ -39,6 +44,7 @@ function DataPlanCard({
 }) {
   const isUnlimited = plan.data_type === "unlimited";
   const checked = form.watch("plan") === plan.natural_name;
+
   return (
     <RadioSelect {...form.register("plan")} value={plan.natural_name}>
       <div className="flex items-center justify-between">
