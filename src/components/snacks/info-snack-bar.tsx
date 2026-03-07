@@ -7,7 +7,7 @@ export default function InfoSnackBar({
 }) {
   return (
     <div className="flex gap-3 items-center bg-secondary p-3 rounded-lg">
-      <div className="bg-amber-500 py-1 px-1.5 rounded-lg w-fit">
+      <div className="bg-amber-500 p-1.5 rounded-lg w-fit">
         <Info color="white" size={17} />
       </div>
       <span className="text-sm">{description}</span>

@@ -92,7 +92,7 @@ export default function PageDataPlan() {
         <BottomDockPortal mobileOnly={false}>
           <div className="bg-secondary">
             <div className="container mx-auto flex items-center gap-3 p-5">
-              <Button type="submit" form="form-dataplan" className="w-12">
+              <Button className="w-12">
                 <PackagePlus />
               </Button>
               <Button
