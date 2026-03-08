@@ -1,14 +1,12 @@
 import BaseLayout from "@/components/layout/base-layout";
 import ContentLayout from "@/components/layout/content-layout";
 import { useRouter } from "next/router";
-import { ArrowLeft } from "lucide-react";
 import DataPlans from "@/components/plan/data-plans";
 import ActivationPolicy from "@/components/plan/activation-policy";
 import InfoSnackBar from "@/components/snacks/info-snack-bar";
 import PlanDetails from "@/components/plan/plan-details";
 import TabFilter from "@/components/filters/tab-filter";
 import CartNav from "@/components/nav/cart-nav";
-import BottomDockPortal from "@/components/portal/bottom-dock-portal";
 import { Button } from "@/components/ui/button";
 import { PackagePlus } from "lucide-react";
 import { useProductsQuery } from "@/network/api-hooks/query";
@@ -24,10 +22,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormDataPlan, planSchema } from "@/lib/yup/dataplan-schema";
 import { capitalizeFirstLetter } from "@/lib/utils";
-
 import DataPlanConfim from "@/components/cofirms/dataplan-confim";
 import { useAddToCartMutation } from "@/network/api-hooks/mutation";
 import { useSearchParams } from "next/navigation";
+import BackNav from "@/components/nav/back-nav";
+import DockContainer from "@/components/docks/dock-container";
 
 export default function PageDataPlan() {
   const router = useRouter();
@@ -74,22 +73,7 @@ export default function PageDataPlan() {
     <BaseLayout title="Choose Plan">
       <ContentLayout>
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-3 p-5">
-            <button
-              type="button"
-              onClick={() => {
-                if (window.history.length > 1) {
-                  router.back();
-                } else {
-                  router.replace("/store");
-                }
-              }}
-              className="cursor-pointer hover:bg-primary rounded-sm py-1 px-1.5 hover:text-white"
-            >
-              <ArrowLeft size={20} />
-            </button>
-            <span className="text-xl font-semibold">{title}</span>
-          </div>
+          <BackNav title={title as string} />
           <CartNav />
         </div>
         <main className="min-h-[90vh]">
@@ -103,34 +87,30 @@ export default function PageDataPlan() {
           <PlanDetails />
           <InfoSnackBar description="This plan does not come with a number, so no call and text service will be available." />
         </main>
-        <BottomDockPortal mobileOnly={false}>
-          <div className="bg-secondary">
-            <div className="container mx-auto flex items-center gap-3 p-5">
-              <DataPlanConfim
-                title={title as string}
-                form={form}
-                trigger={
-                  <button
-                    type="button"
-                    disabled={!form.formState.isValid}
-                    className="flex justify-center items-center w-14 h-12 bg-primary text-white rounded-lg disabled:bg-gray-400 disabled:text-gray-300"
-                  >
-                    <PackagePlus className="my-1.5" size={23} />
-                  </button>
-                }
-                confirmTitle="Add To Cart"
-              />
-              <Button
-                type="submit"
-                form="form-dataplan"
-                className="w-[calc(100%-68px)] bg-active/90 hover:bg-active h-12 md:text-lg"
+        <DockContainer>
+          <DataPlanConfim
+            title={title as string}
+            form={form}
+            trigger={
+              <button
+                type="button"
                 disabled={!form.formState.isValid}
+                className="flex justify-center items-center w-14 h-12 bg-primary text-white rounded-lg disabled:bg-gray-400 disabled:text-gray-300"
               >
-                Buy Now
-              </Button>
-            </div>
-          </div>
-        </BottomDockPortal>
+                <PackagePlus className="my-1.5" size={23} />
+              </button>
+            }
+            confirmTitle="Add To Cart"
+          />
+          <Button
+            type="submit"
+            form="form-dataplan"
+            className="w-[calc(100%-68px)] bg-active/90 hover:bg-active h-12 md:text-lg"
+            disabled={!form.formState.isValid}
+          >
+            Buy Now
+          </Button>
+        </DockContainer>
       </ContentLayout>
     </BaseLayout>
   );

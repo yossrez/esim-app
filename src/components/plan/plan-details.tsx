@@ -1,4 +1,4 @@
-import useProductCacheData from "@/lib/hooks/product-cache-data";
+import useProductCacheData from "@/lib/hooks/query-cache/product-cache-data";
 import Title from "../ui/title";
 import { Check } from "lucide-react";
 

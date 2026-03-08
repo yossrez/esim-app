@@ -6,7 +6,7 @@ import { UseFormReturn } from "react-hook-form";
 import { FormDataPlan } from "@/lib/yup/dataplan-schema";
 import RadioSelect from "../ui/radio-select";
 import { capitalizeFirstLetter } from "@/lib/utils";
-import useProductCacheData from "@/lib/hooks/product-cache-data";
+import useProductCacheData from "@/lib/hooks/query-cache/product-cache-data";
 import { useEffect, useState } from "react";
 
 export default function DataPlans({

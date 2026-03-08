@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import { CSSProperties, ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-interface BottomDockPortalProps {
+interface DockPortalProps {
   children: ReactNode;
   mobileOnly?: boolean;
 }
@@ -21,10 +21,10 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export default function BottomDockPortal({
+export default function DockPortal({
   children,
   mobileOnly = true,
-}: BottomDockPortalProps) {
+}: DockPortalProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

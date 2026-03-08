@@ -14,6 +14,7 @@ import { FormDataPlan } from "@/lib/yup/dataplan-schema";
 import { UseFormReturn } from "react-hook-form";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { Input } from "../ui/input";
+import { Separator } from "../ui/separator";
 
 interface DataPlanConfimProps {
   title: string;
@@ -38,7 +39,8 @@ export default function DataPlanConfim({
         <DrawerHeader>
           <DrawerTitle className="text-xl">{title}</DrawerTitle>
           <DrawerDescription></DrawerDescription>
-          <hr className="border border-b border-b-gray-700" />
+          {/*<hr className="border border-b border-b-gray-700" />*/}
+          <Separator />
           <div className="flex items-center justify-between gap-10">
             <div className="flex items-center justify-between py-3 px-5 basis-3/4">
               <div>
