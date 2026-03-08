@@ -16,20 +16,22 @@ import {
   fallbackPageDataPlanFilter,
   pageDataPlanFilterKeys,
 } from "@/lib/const/dataplan-filter";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { destNameMap } from "@/lib/const/dest-name-map";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormDataPlan, planSchema } from "@/lib/yup/dataplan-schema";
-import { capitalizeFirstLetter } from "@/lib/utils";
+import { capitalizeFirstLetter, genRandTempId } from "@/lib/utils";
 import DataPlanConfim from "@/components/cofirms/dataplan-confim";
 import { useAddToCartMutation } from "@/network/api-hooks/mutation";
 import { useSearchParams } from "next/navigation";
 import BackNav from "@/components/nav/back-nav";
 import DockContainer from "@/components/docks/dock-container";
+import { Order } from "@/types";
 
 export default function PageDataPlan() {
   const router = useRouter();
+  const [buyNow, setBuyNow] = useState(false);
 
   const form = useForm<FormDataPlan>({
     resolver: yupResolver(planSchema),
@@ -38,7 +40,7 @@ export default function PageDataPlan() {
     },
   });
 
-  console.log(form.getValues());
+  console.info(form.getValues());
 
   const searchParams = useSearchParams();
   useEffect(() => {
@@ -65,8 +67,19 @@ export default function PageDataPlan() {
   const cartMutation = useAddToCartMutation(form.reset);
 
   const onSubmit = (data: FormDataPlan) => {
+    // eslint-disable-next-line
     console.log("submit form", data);
-    cartMutation.mutate(data);
+    if (!buyNow) {
+      cartMutation.mutate(data);
+    } else {
+      const id = genRandTempId();
+      const order: Order = {
+        ...data,
+        id,
+      };
+      sessionStorage.setItem("checkout-plan", JSON.stringify(order));
+      router.push(`/checkout?plan=s-${btoa(id)}`);
+    }
   };
 
   return (
@@ -94,6 +107,7 @@ export default function PageDataPlan() {
             trigger={
               <button
                 type="button"
+                onClick={() => setBuyNow(false)}
                 disabled={!form.formState.isValid}
                 className="flex justify-center items-center w-14 h-12 bg-primary text-white rounded-lg disabled:bg-gray-400 disabled:text-gray-300"
               >
@@ -102,14 +116,20 @@ export default function PageDataPlan() {
             }
             confirmTitle="Add To Cart"
           />
-          <Button
-            type="submit"
-            form="form-dataplan"
-            className="w-[calc(100%-68px)] bg-active/90 hover:bg-active h-12 md:text-lg"
-            disabled={!form.formState.isValid}
-          >
-            Buy Now
-          </Button>
+          <DataPlanConfim
+            title={title as string}
+            form={form}
+            trigger={
+              <Button
+                onClick={() => setBuyNow(true)}
+                className="w-[calc(100%-68px)] bg-active/90 hover:bg-active h-12 md:text-lg"
+                disabled={!form.formState.isValid}
+              >
+                Buy Now
+              </Button>
+            }
+            confirmTitle="Checkout"
+          />
         </DockContainer>
       </ContentLayout>
     </BaseLayout>

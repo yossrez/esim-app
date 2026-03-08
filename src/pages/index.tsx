@@ -23,7 +23,7 @@ export default function PageMain() {
               <Button
                 variant="outline"
                 className="h-11 w-full max-w-120 gap-5 cursor-text bg-gray-50"
-                onClick={() => console.log("search")}
+                // onClick={() => console.log("search")}
               >
                 <span className="text-gray-600 font-medium sm:text-base text-xs">
                   Search for destination

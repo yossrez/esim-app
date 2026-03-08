@@ -61,9 +61,7 @@ export type ProductDetail = {
   value: boolean;
 };
 
-export type CartData = {
-  [key: string]: Cart[];
-};
+export type CartData = Cart[];
 
 export type Cart = FormDataPlan & { id: string };
 
@@ -71,9 +69,7 @@ export type CartItemTotal = {
   total: number;
 };
 
-export type OrderData = {
-  [key: string]: Order[];
-};
+// export type OrderData = Order[];
 
 export type Order = FormDataPlan & {
   id: string;
