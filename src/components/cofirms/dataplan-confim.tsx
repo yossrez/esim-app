@@ -31,10 +31,17 @@ export default function DataPlanConfim({
 }: DataPlanConfimProps) {
   const data = form.getValues();
   const isUnlimited = data?.plan?.data_type === "unlimited";
+  const [opened, setOpened] = useState(false);
+
+  useEffect(() => {
+    if (!form.formState.isValid) setOpened(false);
+  }, [data]);
 
   return (
-    <Drawer>
-      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+    <Drawer open={opened} onOpenChange={(o) => setOpened(o)}>
+      <DrawerTrigger asChild onClick={() => setOpened(true)}>
+        {trigger}
+      </DrawerTrigger>
       <DrawerContent className="container mx-auto">
         <DrawerHeader>
           <DrawerTitle className="text-xl">{title}</DrawerTitle>
@@ -77,7 +84,11 @@ export default function DataPlanConfim({
         <DrawerFooter>
           <div className="flex justify-between items-center gap-5 w-[calc(100%-20px)]">
             <DrawerClose asChild>
-              <Button variant="destructive" className="h-12 w-1/2">
+              <Button
+                onClick={() => setOpened(false)}
+                variant="destructive"
+                className="h-12 w-1/2"
+              >
                 Cancel
               </Button>
             </DrawerClose>

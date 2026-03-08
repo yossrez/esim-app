@@ -6,14 +6,16 @@ import BackNav from "@/components/nav/back-nav";
 import { Button } from "@/components/ui/button";
 import { checkoutOrigin } from "@/lib/const/checkout-origin";
 import { sessionCheckoutKey } from "@/lib/const/session-keys";
-import { useOrderMutation } from "@/network/api-hooks/mutation";
+import { usePlaceOrderMutation } from "@/network/api-hooks/mutation";
 import { useCartItemsQuery } from "@/network/api-hooks/query";
 import { Order } from "@/types";
+import { Monitor } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function PageCheckout() {
   const searchParams = useSearchParams();
+  const [mounted, setMounted] = useState(false);
 
   const paramMemo = useMemo(
     () => (searchParams.get("plan") as string) ?? "",
@@ -26,14 +28,11 @@ export default function PageCheckout() {
   );
 
   const sessionCheckoutData = useMemo<Order | null>(() => {
-    if (isCartCheckout) {
-      return null;
-    }
-    if (typeof window === "undefined") {
+    if (isCartCheckout || paramMemo === "" || typeof window === "undefined") {
       return null;
     }
     const data = sessionStorage.getItem(sessionCheckoutKey);
-    if (data === null || data === "") {
+    if (!data) {
       return null;
     }
     try {
@@ -44,14 +43,15 @@ export default function PageCheckout() {
         return order;
       }
     } catch {
+      sessionStorage.removeItem(sessionCheckoutKey);
       return null;
     }
     return null;
   }, [isCartCheckout, paramMemo]);
 
-  const { data: cartData } = useCartItemsQuery(
+  const { data: cartData, isLoading } = useCartItemsQuery(
     true,
-    isCartCheckout ? paramMemo?.slice(2) : undefined,
+    isCartCheckout ? paramMemo.slice(2) : undefined,
   );
 
   const totalAmount = useMemo(() => {
@@ -65,29 +65,41 @@ export default function PageCheckout() {
     return sessionCheckoutData.quantity * sessionCheckoutData.plan.price;
   }, [cartData, sessionCheckoutData, isCartCheckout]);
 
-  const orderMutation = useOrderMutation();
+  const checkoutMutation = usePlaceOrderMutation();
 
   function handleBuy() {
     if (isCartCheckout) {
       if (cartData?.data === null) {
         console.error("Cart Not Valid");
       }
-      orderMutation.mutate(cartData?.data as Order[]);
+      checkoutMutation.mutate(cartData?.data as Order[]);
       return;
     }
     if (sessionCheckoutData === null) {
       console.error("Session Not Valid");
       return;
     }
-    orderMutation.mutate([sessionCheckoutData]);
+    checkoutMutation.mutate([sessionCheckoutData]);
   }
 
-  if (
-    paramMemo === "" ||
-    ((cartData === undefined || cartData.data.length === 0) &&
-      sessionCheckoutData === null)
-  ) {
-    return <ErrState code={404} description="Not Found!" />;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 50); // ms
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) return "Loading...";
+
+  if (!mounted) return null;
+
+  const isNoData =
+    (cartData === undefined || cartData.data.length === 0) &&
+    sessionCheckoutData === null;
+
+  if (isNoData) {
+    return <ErrState code={404} description="Uhh, Nothing to Checkout!" />;
   }
 
   return (

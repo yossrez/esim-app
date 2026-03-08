@@ -16,10 +16,10 @@ export function useAddToCartMutation(reset: UseFormReset<FormDataPlan>) {
   });
 }
 
-export function useOrderMutation() {
+export function usePlaceOrderMutation() {
   return useMutation({
     mutationFn: (newOrders: Order[]) => {
-      return kyClient.post("orders", { json: newOrders });
+      return kyClient.post("orders/buy", { json: newOrders });
     },
     onSuccess: () => {
       alert("Order has been placed!");
